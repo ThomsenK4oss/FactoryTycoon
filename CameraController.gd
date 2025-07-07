@@ -1,62 +1,49 @@
-# CameraController.gd
-# Attach this script to your Camera3D node. No additional InputMap setup required.
+extends Node3D
 
-extends Camera3D
+@onready var rotationx:Node3D = $CameraRotationX
+@onready var camerazoom:Node3D = $CameraRotationX/CameraZoom
+@onready var camera:Camera3D = $CameraRotationX/CameraZoom/Camera3D
 
-@export var move_speed := 10.0
-@export var zoom_speed := 2.0
-@export var rotation_speed := 0.2
-@export var zoom_min := 5.0
-@export var zoom_max := 40.0
+var move_speed:float = 0.25
+var move_target:Vector3
 
-var yaw := 0.0
-var pitch := -30.0
-var is_rotating := false
+var rotate_speed:float = 1.0
+var rotate_target:float
+var mouse_sesitivity:float = 0.1
 
-func _ready():
-	# Start med den ønskede pitch/yaw
-	rotation_degrees = Vector3(pitch, yaw, 0)
+var zoom_speed:float = 1.5
+var zoom_target:float
+var zoom_min:float = -20
+var zoom_max:float = 20
 
-func _process(delta):
-	_handle_movement(delta)
+func _ready() -> void:
+	move_target = position
+	rotate_target = rotation_degrees.y
+	zoom_target = camera.position.z
 
-func _input(event):
-	# Zoom med scrollhjul
-	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_WHEEL_UP and event.pressed:
-			_zoom(-1)
-		elif event.button_index == BUTTON_WHEEL_DOWN and event.pressed:
-			_zoom(1)
-		# Start/stop rotation med højre museknap
-		elif event.button_index == BUTTON_RIGHT:
-			is_rotating = event.pressed
-			Input.set_mouse_mode(is_rotating ? Input.MOUSE_MODE_CAPTURED : Input.MOUSE_MODE_VISIBLE)
-	# Rotation når mus bevæger sig og højre knap holdes
-	elif event is InputEventMouseMotion and is_rotating:
-		yaw   -= event.relative.x * rotation_speed
-		pitch -= event.relative.y * rotation_speed
-		pitch  = clamp(pitch, -85, -10)
-		rotation_degrees = Vector3(pitch, yaw, 0)
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("rotate"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	elif Input.is_action_just_released("rotate"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	# get input directions
+	var input_directions = Input.get_vector("left","right","up","down")
+	var movement_directions = (transform.basis * Vector3(input_directions.x,0,input_directions.y)).normalized()
+	var rotate_keys = Input.get_axis("rotate_left", "rotate_right")
+	var zoom_dir = (int(Input.is_action_just_pressed("zoom_out"))-
+					int(Input.is_action_just_released("zoom_in")))
+	
+	move_target += move_speed * movement_directions
+	rotate_target += rotate_keys * rotate_speed
+	zoom_target += zoom_dir * zoom_speed
+	
+	position = lerp(position, move_target, 0.05)
+	rotation_degrees.y = lerp(rotation_degrees.y, rotate_target, 0.05)
+	camera.position.z = lerp(camera.position.z, zoom_target, 0.1)
 
-func _zoom(dir: int) -> void:
-	# Zoom langs Y-aksen
-	var pos = global_transform.origin
-	pos.y = clamp(pos.y + dir * zoom_speed, zoom_min, zoom_max)
-	global_transform.origin = pos
-
-func _handle_movement(delta: float) -> void:
-	var dir = Vector3.ZERO
-	# Frem/tilbage i forhold til kameraets forward
-	if Input.is_key_pressed(KEY_W):
-		dir -= transform.basis.z
-	if Input.is_key_pressed(KEY_S):
-		dir += transform.basis.z
-	# Strafe sideværts i forhold til kameraets right
-	if Input.is_key_pressed(KEY_A):
-		dir -= transform.basis.x
-	if Input.is_key_pressed(KEY_D):
-		dir += transform.basis.x
-
-	dir.y = 0
-	if dir != Vector3.ZERO:
-		translate(dir.normalized() * move_speed * delta)
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion and Input.is_action_pressed("rotate"):
+		rotate_target -= event.relative.x * mouse_sesitivity
+		rotationx.rotation_degrees.x -= event.relative.y * mouse_sesitivity
+		rotationx.rotation_degrees.x = clamp(rotationx.rotation_degrees.x, -10, 90)
+		
