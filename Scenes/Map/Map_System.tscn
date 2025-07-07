@@ -1,6 +1,3 @@
 [gd_scene format=3 uid="uid://cus7gtijmoxk0"]
 
 [node name="Map_System" type="Node3D"]
-
-[node name="Tile_Map" type="GridMap" parent="."]
-cell_size = Vector3(6, 1, 6)
