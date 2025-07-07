@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cfyosloifv1ro"]
+[gd_scene load_steps=6 format=3 uid="uid://cfyosloifv1ro"]
 
 [ext_resource type="PackedScene" uid="uid://cpkl6fch11vx7" path="res://Scenes/camera_position.tscn" id="1_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://dsxp66pw4wbs1" path="res://Scenes/Map/Tiles/Tile.tscn" id="2_8gbba"]
+[ext_resource type="PackedScene" uid="uid://ecopt515ciia" path="res://Forklift.fbx" id="3_jjvhh"]
+[ext_resource type="PackedScene" uid="uid://hh3cnr03r40d" path="res://palle.fbx" id="4_kry3j"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_7dm0k"]
 
@@ -16,22 +18,30 @@ mesh = SubResource("BoxMesh_7dm0k")
 
 [node name="CameraPosition" parent="." instance=ExtResource("1_bo1nx")]
 
-[node name="Ground_Tile" parent="." instance=ExtResource("2_8gbba")]
+[node name="Forklift" parent="." instance=ExtResource("3_jjvhh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.72753, 0, -2.88922)
 
-[node name="Ground_Tile2" parent="." instance=ExtResource("2_8gbba")]
+[node name="palle" parent="." instance=ExtResource("4_kry3j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.21772, 0, 2.81821)
+
+[node name="Tiles" type="Node3D" parent="."]
+
+[node name="Ground_Tile" parent="Tiles" instance=ExtResource("2_8gbba")]
+
+[node name="Ground_Tile2" parent="Tiles" instance=ExtResource("2_8gbba")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
 
-[node name="Ground_Tile4" parent="." instance=ExtResource("2_8gbba")]
+[node name="Ground_Tile4" parent="Tiles" instance=ExtResource("2_8gbba")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -6)
 
-[node name="Ground_Tile3" parent="." instance=ExtResource("2_8gbba")]
+[node name="Ground_Tile3" parent="Tiles" instance=ExtResource("2_8gbba")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 0)
 
-[node name="Ground_Tile5" parent="." instance=ExtResource("2_8gbba")]
+[node name="Ground_Tile5" parent="Tiles" instance=ExtResource("2_8gbba")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, 6)
 
-[node name="Ground_Tile6" parent="." instance=ExtResource("2_8gbba")]
+[node name="Ground_Tile6" parent="Tiles" instance=ExtResource("2_8gbba")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 6)
 
-[node name="Ground_Tile7" parent="." instance=ExtResource("2_8gbba")]
+[node name="Ground_Tile7" parent="Tiles" instance=ExtResource("2_8gbba")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
