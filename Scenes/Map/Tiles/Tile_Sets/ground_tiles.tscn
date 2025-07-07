@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://csh1upvv40l6k"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_n5evg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o4mxm"]
+albedo_color = Color(0.458405, 0.458405, 0.458405, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_o4mxm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j7ux2"]
+albedo_color = Color(2.31028e-06, 0.696562, 0.701674, 1)
+
+[node name="Ground_Tiles" type="Node3D"]
+
+[node name="Concrete" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_n5evg")
+surface_material_override/0 = SubResource("StandardMaterial3D_o4mxm")
+
+[node name="Wall" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0.5, 0)
+mesh = SubResource("BoxMesh_o4mxm")
+surface_material_override/0 = SubResource("StandardMaterial3D_j7ux2")
