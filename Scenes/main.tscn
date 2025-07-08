@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cfyosloifv1ro"]
+[gd_scene load_steps=6 format=3 uid="uid://cfyosloifv1ro"]
 
 [ext_resource type="PackedScene" uid="uid://cpkl6fch11vx7" path="res://Scenes/camera_position.tscn" id="1_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://ecopt515ciia" path="res://Forklift.fbx" id="3_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://cus7gtijmoxk0" path="res://Scenes/Map/Map_System.tscn" id="4_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://hh3cnr03r40d" path="res://palle.fbx" id="4_kry3j"]
+[ext_resource type="PackedScene" uid="uid://b5n7r4rot3x6r" path="res://Scenes/UI/ui.tscn" id="5_kry3j"]
 
 [node name="Factory" type="Node3D" groups=["FactoryNode"]]
 
@@ -13,11 +14,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0154228, 1.285, -0.0517302)
 [node name="CameraPosition" parent="." instance=ExtResource("1_bo1nx")]
 
 [node name="Forklift" parent="." instance=ExtResource("3_jjvhh")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.72753, 0, -2.88922)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.72753, 0.5, -2.88922)
 
 [node name="palle" parent="." instance=ExtResource("4_kry3j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.21772, 0, 2.81821)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.71772, 0.7, 0.61821)
 
 [node name="Tiles" type="Node3D" parent="."]
 
 [node name="Map_System" parent="Tiles" instance=ExtResource("4_jjvhh")]
+
+[node name="Node2D" parent="." instance=ExtResource("5_kry3j")]

@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://cu18ccgqvbqgo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ypx1p"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rtysa"]
+bg_color = Color(0.163727, 0.487467, 0.999997, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="Button" type="Button"]
+custom_minimum_size = Vector2(150, 150)
+offset_right = 8.0
+offset_bottom = 8.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_ypx1p")
+theme_override_styles/normal = SubResource("StyleBoxFlat_rtysa")
