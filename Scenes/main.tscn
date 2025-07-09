@@ -1,10 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfyosloifv1ro"]
+[gd_scene load_steps=10 format=3 uid="uid://cfyosloifv1ro"]
 
 [ext_resource type="PackedScene" uid="uid://cpkl6fch11vx7" path="res://Scenes/camera_position.tscn" id="1_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://ecopt515ciia" path="res://Forklift.fbx" id="3_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://cus7gtijmoxk0" path="res://Scenes/Map/Map_System.tscn" id="4_jjvhh"]
 [ext_resource type="PackedScene" uid="uid://hh3cnr03r40d" path="res://palle.fbx" id="4_kry3j"]
 [ext_resource type="PackedScene" uid="uid://b5n7r4rot3x6r" path="res://Scenes/UI/ui.tscn" id="5_kry3j"]
+[ext_resource type="Script" uid="uid://b7l4fqry7xndm" path="res://Scripts/machine_controller.gd" id="6_21xkr"]
+[ext_resource type="PackedScene" uid="uid://dboncljb5oan0" path="res://Scenes/Machines/machine.tscn" id="7_6bp64"]
+[ext_resource type="Material" uid="uid://dlj3ene0f3bho" path="res://Textures/Can_place_texture.tres" id="7_ynf5e"]
+[ext_resource type="Material" uid="uid://de0wd5avy28x5" path="res://Textures/Cant_place_texture.tres" id="8_hptm8"]
 
 [node name="Factory" type="Node3D" groups=["FactoryNode"]]
 
@@ -23,4 +27,17 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.71772, 0.7, 0.61821)
 
 [node name="Map_System" parent="Tiles" instance=ExtResource("4_jjvhh")]
 
-[node name="Node2D" parent="." instance=ExtResource("5_kry3j")]
+[node name="UI" parent="." instance=ExtResource("5_kry3j")]
+
+[node name="MachineController" type="Node" parent="." node_paths=PackedStringArray("machines_holder", "current_machine")]
+script = ExtResource("6_21xkr")
+machines_holder = NodePath("../Machines_Holder")
+current_machine = NodePath("../Current_machine")
+can_place_texture = ExtResource("7_ynf5e")
+cant_place_texture = ExtResource("8_hptm8")
+
+[node name="Machines_Holder" type="Node3D" parent="."]
+
+[node name="Current_machine" type="Node3D" parent="."]
+
+[node name="Machine" parent="Current_machine" instance=ExtResource("7_6bp64")]
