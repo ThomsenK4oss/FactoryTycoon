@@ -4,6 +4,7 @@ const SAVE_FILE = "user://Savefiletestv1.0.0.save"
 var data = {}
 
 func _ready() -> void:
+	#save_data()
 	load_data()
 
 func save_data():
