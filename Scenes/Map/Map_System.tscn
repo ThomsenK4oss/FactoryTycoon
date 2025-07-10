@@ -1,16 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://cus7gtijmoxk0"]
+[gd_scene load_steps=5 format=3 uid="uid://cus7gtijmoxk0"]
 
 [ext_resource type="Script" uid="uid://c815e24npe361" path="res://Scripts/Tiles/map_system.gd" id="1_1stbh"]
 [ext_resource type="MeshLibrary" uid="uid://bldnwm02oxg0s" path="res://Mesh_lib/Ground_Tiles.tres" id="1_sw5h0"]
-[ext_resource type="Material" uid="uid://ci0g02u50pnw6" path="res://Textures/highlight_green.tres" id="2_vd0jk"]
-[ext_resource type="PackedScene" uid="uid://ck6reotsyldx8" path="res://Scenes/Map/Tiles/highlight.tscn" id="3_hiel1"]
-[ext_resource type="Material" uid="uid://dsta2p5ph8d8b" path="res://Textures/highlight_red.tres" id="3_r264i"]
 
-[node name="Map_System" type="Node3D" node_paths=PackedStringArray("highlight_mesh")]
+[sub_resource type="Resource" id="Resource_1stbh"]
+metadata/__load_path__ = "res://Textures/highlight_green.tres"
+
+[sub_resource type="Resource" id="Resource_hiel1"]
+metadata/__load_path__ = "res://Textures/highlight_red.tres"
+
+[node name="Map_System" type="Node3D"]
 script = ExtResource("1_1stbh")
-highlight_mesh = NodePath("Highlight")
-can_buy = ExtResource("2_vd0jk")
-cant_buy = ExtResource("3_r264i")
+can_buy = SubResource("Resource_1stbh")
+cant_buy = SubResource("Resource_hiel1")
 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("1_sw5h0")
@@ -21,7 +23,3 @@ collision_mask = 2147483648
 data = {
 "cells": PackedInt32Array(65535, 65535, 0, 65535, 0, 0, 0, 0, 0, 0, 65535, 0, 65535, 65534, 0, 0, 65534, 0, 1, 65534, 0, 1, 65535, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 65535, 1, 0, 65534, 1, 0, 65534, 0, 0, 65534, 65535, 0, 65534, 65534, 0, 65533, 65533, 0, 65534, 65533, 0, 65535, 65533, 0, 0, 65533, 0, 1, 65533, 0, 2, 65533, 0, 2, 65534, 0, 2, 65535, 0, 2, 0, 0, 2, 1, 0, 2, 2, 0, 1, 2, 0, 0, 2, 0, 65535, 2, 0, 65534, 2, 0, 65533, 2, 0, 65533, 1, 0, 65533, 0, 0, 65533, 65535, 0, 65533, 65534, 0)
 }
-
-[node name="Highlight" parent="." instance=ExtResource("3_hiel1")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.5, 0)
-visible = false

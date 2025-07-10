@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://g3pr4xob2utd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1fxko"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w4gj6"]
+bg_color = Color(0.469286, 0.801333, 0.827928, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="Belt_Button" type="Button"]
+custom_minimum_size = Vector2(100, 100)
+offset_right = 8.0
+offset_bottom = 8.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_1fxko")
+theme_override_styles/normal = SubResource("StyleBoxFlat_w4gj6")

@@ -1,10 +1,60 @@
-[gd_scene load_steps=2 format=3 uid="uid://dboncljb5oan0"]
+[gd_scene load_steps=8 format=3 uid="uid://dboncljb5oan0"]
+
+[ext_resource type="Script" uid="uid://b8q6slj4a30p" path="res://Scripts/Machines/machine_belt.gd" id="1_63um2"]
+[ext_resource type="Script" uid="uid://0kwtnj7nk6a4" path="res://Scripts/Machines/machine.gd" id="1_s6nf4"]
+[ext_resource type="PackedScene" uid="uid://c1vn0j6tgbke0" path="res://Scenes/Machines/Output/basic_output.tscn" id="2_tb2j8"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_2ydj0"]
 size = Vector3(4, 4, 4)
 
-[node name="Machine" type="Node3D"]
+[sub_resource type="BoxMesh" id="BoxMesh_63um2"]
+size = Vector3(3, 2, 1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[sub_resource type="BoxShape3D" id="BoxShape3D_s6nf4"]
+size = Vector3(3, 2, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tb2j8"]
+size = Vector3(1, 4, 1)
+
+[node name="Machine" type="Node3D" node_paths=PackedStringArray("machine_parts", "spawn_timer")]
+script = ExtResource("1_s6nf4")
+machine_parts = [NodePath("Machine"), NodePath("Belt")]
+spawn_timer = NodePath("Spawn_Timer")
+output = ExtResource("2_tb2j8")
+
+[node name="Machine" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 mesh = SubResource("BoxMesh_2ydj0")
+
+[node name="Belt" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2.3152)
+mesh = SubResource("BoxMesh_63um2")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Belt" node_paths=PackedStringArray("machine", "spawn_pos")]
+script = ExtResource("1_63um2")
+machine = NodePath("../..")
+spawn_pos = NodePath("../../Spawn_Position")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Belt/StaticBody3D"]
+shape = SubResource("BoxShape3D_s6nf4")
+
+[node name="Bounds" type="StaticBody3D" parent="Belt"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Belt/Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1, 0)
+shape = SubResource("BoxShape3D_tb2j8")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Belt/Bounds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1, 0)
+shape = SubResource("BoxShape3D_tb2j8")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Belt/Bounds"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 3, 0)
+shape = SubResource("BoxShape3D_tb2j8")
+
+[node name="Spawn_Timer" type="Timer" parent="."]
+
+[node name="Spawn_Position" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2)
+
+[connection signal="timeout" from="Spawn_Timer" to="Belt/StaticBody3D" method="_on_spawn_timer_timeout"]
