@@ -55,6 +55,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_egadf")
 theme_override_styles/normal = SubResource("StyleBoxFlat_ugshl")
 
 [node name="Label" type="Label" parent="Options"]
+layout_mode = 0
 offset_right = 462.0
 offset_bottom = 154.0
 scale = Vector2(0.65, 0.65)
@@ -70,6 +71,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_egadf")
 theme_override_styles/normal = SubResource("StyleBoxFlat_ugshl")
 
 [node name="Label" type="Label" parent="Menu"]
+layout_mode = 0
 offset_right = 545.0
 offset_bottom = 164.0
 scale = Vector2(0.55, 0.55)
@@ -85,6 +87,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_egadf")
 theme_override_styles/normal = SubResource("StyleBoxFlat_ugshl")
 
 [node name="Label" type="Label" parent="Quit"]
+layout_mode = 0
 offset_right = 600.0
 offset_bottom = 150.0
 scale = Vector2(0.5, 0.5)

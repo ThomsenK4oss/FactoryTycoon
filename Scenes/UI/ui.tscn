@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://b5n7r4rot3x6r"]
+[gd_scene load_steps=6 format=3 uid="uid://b5n7r4rot3x6r"]
 
 [ext_resource type="PackedScene" uid="uid://cu18ccgqvbqgo" path="res://Scenes/UI/tool-button.tscn" id="1_ahcct"]
 [ext_resource type="Script" uid="uid://cx8cbvtm3prth" path="res://Scripts/UI/toolbox.gd" id="1_de23q"]
 [ext_resource type="PackedScene" uid="uid://8dvu7wfgxggf" path="res://Scenes/UI/ESC_UI.tscn" id="3_c7mb3"]
+[ext_resource type="PackedScene" uid="uid://cfrw4tgf17ao6" path="res://Scenes/UI/belt_ui.tscn" id="4_fo61o"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ej242"]
 bg_color = Color(0.788235, 0.54902, 0, 0.392157)
@@ -19,8 +20,9 @@ corner_radius_bottom_left = 10
 [node name="Node2D" type="Node2D"]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+process_mode = 3
 
-[node name="Toolbox" type="Panel" parent="CanvasLayer" node_paths=PackedStringArray("ESC_UI")]
+[node name="Toolbox" type="Panel" parent="CanvasLayer" node_paths=PackedStringArray("Pause_Menu", "Belt_Menu")]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -33,7 +35,8 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_ej242")
 script = ExtResource("1_de23q")
-ESC_UI = NodePath("../Panel")
+Pause_Menu = NodePath("../Pause_Menu")
+Belt_Menu = NodePath("../Belt_Menu")
 
 [node name="GridContainer" type="GridContainer" parent="CanvasLayer/Toolbox"]
 layout_mode = 1
@@ -55,18 +58,33 @@ layout_mode = 2
 [node name="UI" parent="CanvasLayer/Toolbox/GridContainer" instance=ExtResource("1_ahcct")]
 layout_mode = 2
 
-[node name="?" parent="CanvasLayer/Toolbox/GridContainer" instance=ExtResource("1_ahcct")]
+[node name="Belts" parent="CanvasLayer/Toolbox/GridContainer" instance=ExtResource("1_ahcct")]
 layout_mode = 2
 
-[node name="Panel" parent="CanvasLayer" instance=ExtResource("3_c7mb3")]
+[node name="Pause_Menu" parent="CanvasLayer" instance=ExtResource("3_c7mb3")]
+visible = false
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -575.0
-offset_top = -232.5
-offset_right = -275.0
-offset_bottom = 232.5
+offset_left = -886.0
+offset_top = -232.0
+offset_right = -586.0
+offset_bottom = 233.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Belt_Menu" parent="CanvasLayer" instance=ExtResource("4_fo61o")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -310.0
+offset_top = -85.0
+offset_right = 310.0
+offset_bottom = 85.0
 grow_horizontal = 2
 grow_vertical = 2

@@ -2,8 +2,6 @@ extends Node3D
 
 @onready var grid_map: GridMap = $GridMap
 
-@export var highlight_mesh: Node3D
-
 @export var can_buy: Resource
 @export var cant_buy: Resource
 

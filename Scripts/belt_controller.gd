@@ -2,26 +2,24 @@ extends Node
 
 @onready var grid_map: GridMap = get_parent().get_node("Tiles/Map_System/GridMap")
 
-@export var machines_holder: Node3D
+@export var belts_holder: Node3D
 
-@export var current_machine: Node3D
+@export var current_belt: Node3D
 
 @export var can_place_texture: Resource
 
 @export var cant_place_texture: Resource
 
-@export var show_machine: bool = false
+@export var show_belt: bool = false
 
 func _process(delta: float) -> void:
-	if Database.selected_machine != {} and show_machine == false:
-		show_machine = true
-	elif Database.selected_machine == {} and show_machine == true:
-		show_machine = false
+	if Database.selected_belt != {} and show_belt == false:
+		show_belt = true
 	
-	if show_machine:
+	if show_belt:
 		if can_place():
 			if Input.is_action_just_pressed("Click"):
-				place_machine()
+				place_belt()
 
 func get_mouse_pos():
 	var mouse_pos = get_viewport().get_mouse_position()
@@ -74,55 +72,55 @@ func check_grid_pos(pos):
 
 func rotate():
 	if Input.is_action_just_pressed("r"):
-		current_machine.rotation_degrees.y -= 90
+		current_belt.rotation_degrees.y -= 90
 
 func can_place() -> bool:
 	var mouse_pos = get_mouse_pos()
 	if mouse_pos:
-		if current_machine.get_child_count() > 0:
-			if current_machine.get_child(0).machine_name != Database.selected_machine["Name"]:
-				current_machine.get_child(0).queue_free()
+		if current_belt.get_child_count() > 0:
+			if current_belt.get_child(0).belt_name != Database.selected_belt["Name"]:
+				current_belt.get_child(0).queue_free()
 				
-				var instance = load(Database.selected_machine["Scene"]).instantiate()
-				current_machine.add_child(instance)
+				var instance = load(Database.selected_belt["Scene"]).instantiate()
+				current_belt.add_child(instance)
 		else:
-			var instance = load(Database.selected_machine["Scene"]).instantiate()
-			current_machine.add_child(instance)
+			var instance = load(Database.selected_belt["Scene"]).instantiate()
+			current_belt.add_child(instance)
 		
 		var local_pos = grid_map.to_local(mouse_pos)
 		var map_pos = grid_map.local_to_map(local_pos)
 		var pos = Vector3(place_on_grid(map_pos).x, 0.5, place_on_grid(map_pos).z)
 		
-		current_machine.global_position = pos
+		current_belt.global_position = pos
 		rotate()
 		
 		if check_grid_pos(pos):
 			if is_floor(get_tile_data(mouse_pos)):
-				if Database.current_save["Gold"] >= Database.selected_machine["Cost"]:
-					current_machine.visible = true
-					for part in current_machine.get_child(0).machine_parts:
+				if Database.current_save["Gold"] >= Database.selected_belt["Cost"]:
+					current_belt.visible = true
+					for part in current_belt.get_child(0).belt_parts:
 						part.material_override = can_place_texture
 					return true
 				else:
-					current_machine.visible = true
-					for part in current_machine.get_child(0).machine_parts:
+					current_belt.visible = true
+					for part in current_belt.get_child(0).belt_parts:
 						part.material_override = cant_place_texture
 					return false
 			else:
-				current_machine.visible = false
-				for part in current_machine.get_child(0).machine_parts:
+				current_belt.visible = false
+				for part in current_belt.get_child(0).belt_parts:
 					part.material_override = cant_place_texture
 				return false
 		else:
-			current_machine.visible = true
-			for part in current_machine.get_child(0).machine_parts:
+			current_belt.visible = true
+			for part in current_belt.get_child(0).belt_parts:
 				part.material_override = cant_place_texture
 			return false
 	else:
-		current_machine.visible = false
+		current_belt.visible = false
 		return false
 
-func place_machine():
+func place_belt():
 	var mouse_pos = get_mouse_pos()
 	if mouse_pos:
 		var local_pos = grid_map.to_local(mouse_pos)
@@ -130,27 +128,22 @@ func place_machine():
 		var pos = Vector3(place_on_grid(map_pos).x, 0.5, place_on_grid(map_pos).z)
 		
 		if Input.is_action_pressed("Shift"):
-			var instance = load(Database.selected_machine["Scene"]).instantiate()
-			machines_holder.add_child(instance)
-			
+			var instance = load(Database.selected_belt["Scene"]).instantiate()
+			belts_holder.add_child(instance)
 			instance.global_position = Vector3(pos.x, 0.5, pos.z)
-			instance.rotation_degrees = current_machine.rotation_degrees
-			
-			Database.placed_machines[Database.placed_machines.size()] = instance.global_position
-			
-			instance.start_output()
+			instance.rotation_degrees = current_belt.rotation_degrees
+			Database.placed_belts[Database.placed_belts.size()] = instance.global_position
+			instance.activate()
 		else:
-			var instance = load(Database.selected_machine["Scene"]).instantiate()
-			machines_holder.add_child(instance)
-			
+			var instance = load(Database.selected_belt["Scene"]).instantiate()
+			belts_holder.add_child(instance)
 			instance.global_position = Vector3(pos.x, 0.5, pos.z)
-			instance.rotation_degrees = current_machine.rotation_degrees
+			instance.rotation_degrees = current_belt.rotation_degrees
+			Database.placed_belts[Database.placed_belts.size()] = instance.global_position
 			
-			Database.placed_machines[Database.placed_machines.size()] = instance.global_position
+			instance.activate()
 			
-			instance.start_output()
+			Database.selected_belt = {}
+			show_belt = false
 			
-			Database.selected_machine = {}
-			show_machine = false
-			
-			current_machine.visible = false
+			current_belt.visible = false

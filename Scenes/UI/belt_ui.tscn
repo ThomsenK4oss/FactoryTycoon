@@ -1,0 +1,61 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfrw4tgf17ao6"]
+
+[ext_resource type="PackedScene" uid="uid://g3pr4xob2utd" path="res://Scenes/UI/belt_button.tscn" id="1_0lcl7"]
+[ext_resource type="Script" uid="uid://crkvwkub8e1b7" path="res://Scripts/UI/belt_ui.gd" id="1_eo1lc"]
+
+[sub_resource type="SystemFont" id="SystemFont_0lcl7"]
+font_names = PackedStringArray("Bowlby One SC")
+
+[sub_resource type="LabelSettings" id="LabelSettings_eo1lc"]
+font = SubResource("SystemFont_0lcl7")
+font_size = 30
+outline_size = 10
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Belt_Menu" type="Panel" node_paths=PackedStringArray("belts_level_1")]
+custom_minimum_size = Vector2(620, 0)
+offset_right = 620.0
+offset_bottom = 170.0
+script = ExtResource("1_eo1lc")
+belts_level_1 = NodePath("Belts/Belts_Level_1")
+
+[node name="Belts" type="GridContainer" parent="."]
+custom_minimum_size = Vector2(600, 100)
+layout_mode = 2
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 610.0
+offset_bottom = 137.0
+theme_override_constants/h_separation = 25
+
+[node name="Title" type="Label" parent="Belts"]
+layout_mode = 2
+text = "level 1"
+label_settings = SubResource("LabelSettings_eo1lc")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Belts_Level_1" type="GridContainer" parent="Belts"]
+custom_minimum_size = Vector2(600, 100)
+layout_mode = 2
+theme_override_constants/h_separation = 25
+columns = 5
+
+[node name="Straight_Basic_Conveyor" parent="Belts/Belts_Level_1" instance=ExtResource("1_0lcl7")]
+layout_mode = 2
+
+[node name="Belt_Button2" parent="Belts/Belts_Level_1" instance=ExtResource("1_0lcl7")]
+visible = false
+layout_mode = 2
+
+[node name="Belt_Button3" parent="Belts/Belts_Level_1" instance=ExtResource("1_0lcl7")]
+visible = false
+layout_mode = 2
+
+[node name="Belt_Button4" parent="Belts/Belts_Level_1" instance=ExtResource("1_0lcl7")]
+visible = false
+layout_mode = 2
+
+[node name="Belt_Button5" parent="Belts/Belts_Level_1" instance=ExtResource("1_0lcl7")]
+visible = false
+layout_mode = 2
