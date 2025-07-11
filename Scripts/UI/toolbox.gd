@@ -18,3 +18,6 @@ func tool_button_pressed(slot_index: int):
 		get_tree().paused = !get_tree().paused
 	elif button.name == "Belts":
 		Belt_Menu.visible = !Belt_Menu.visible
+
+func _on_delete_machines_pressed() -> void:
+	pass # Replace with function body.

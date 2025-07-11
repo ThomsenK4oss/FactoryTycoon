@@ -31,6 +31,7 @@ window/size/mode=2
 Wall=""
 FactoryNode=""
 Tile=""
+Output=""
 
 [input]
 
@@ -102,4 +103,10 @@ r={
 
 [layer_names]
 
+3d_physics/layer_3="Output"
+3d_physics/layer_4="belt"
 3d_physics/layer_32="Mouse_detection"
+
+[physics]
+
+3d/physics_engine="GodotPhysics3D"

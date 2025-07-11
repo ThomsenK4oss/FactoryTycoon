@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://b5n7r4rot3x6r"]
+[gd_scene load_steps=10 format=3 uid="uid://b5n7r4rot3x6r"]
 
 [ext_resource type="PackedScene" uid="uid://cu18ccgqvbqgo" path="res://Scenes/UI/tool-button.tscn" id="1_ahcct"]
 [ext_resource type="Script" uid="uid://cx8cbvtm3prth" path="res://Scripts/UI/toolbox.gd" id="1_de23q"]
@@ -16,6 +16,26 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fo61o"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_alcrr"]
+bg_color = Color(1, 0.518123, 0.45217, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+
+[sub_resource type="SystemFont" id="SystemFont_1c2ca"]
+font_names = PackedStringArray("Bowlby One SC")
+
+[sub_resource type="LabelSettings" id="LabelSettings_duuxe"]
+font = SubResource("SystemFont_1c2ca")
+font_size = 100
+outline_size = 20
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Node2D" type="Node2D"]
 
@@ -88,3 +108,24 @@ offset_right = 310.0
 offset_bottom = 85.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Delete_Machines" type="Button" parent="CanvasLayer"]
+offset_left = 401.0
+offset_top = 826.0
+offset_right = 588.0
+offset_bottom = 895.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_fo61o")
+theme_override_styles/normal = SubResource("StyleBoxFlat_alcrr")
+
+[node name="Label" type="Label" parent="CanvasLayer/Delete_Machines"]
+layout_mode = 0
+offset_top = 6.0
+offset_right = 748.0
+offset_bottom = 258.0
+scale = Vector2(0.25, 0.25)
+text = "Delete Mode"
+label_settings = SubResource("LabelSettings_duuxe")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="CanvasLayer/Delete_Machines" to="CanvasLayer/Toolbox" method="_on_delete_machines_pressed"]

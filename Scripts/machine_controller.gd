@@ -134,7 +134,7 @@ func place_machine():
 			machines_holder.add_child(instance)
 			
 			instance.global_position = Vector3(pos.x, 0.5, pos.z)
-			instance.rotation_degrees = current_machine.rotation_degrees
+			instance.rotation_degrees.y = current_machine.rotation_degrees.y
 			
 			Database.placed_machines[Database.placed_machines.size()] = instance.global_position
 			
@@ -144,7 +144,7 @@ func place_machine():
 			machines_holder.add_child(instance)
 			
 			instance.global_position = Vector3(pos.x, 0.5, pos.z)
-			instance.rotation_degrees = current_machine.rotation_degrees
+			instance.rotation_degrees.y = current_machine.rotation_degrees.y
 			
 			Database.placed_machines[Database.placed_machines.size()] = instance.global_position
 			
