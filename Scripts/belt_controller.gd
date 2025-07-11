@@ -20,6 +20,11 @@ func _process(delta: float) -> void:
 		if can_place():
 			if Input.is_action_just_pressed("Click"):
 				place_belt()
+		if Input.is_action_just_released("Shift"):
+			Database.selected_belt = {}
+			show_belt = false
+			
+			current_belt.visible = false
 
 func get_mouse_pos():
 	var mouse_pos = get_viewport().get_mouse_position()
@@ -130,18 +135,23 @@ func place_belt():
 		if Input.is_action_pressed("Shift"):
 			var instance = load(Database.selected_belt["Scene"]).instantiate()
 			belts_holder.add_child(instance)
+			
 			instance.global_position = Vector3(pos.x, 0.5, pos.z)
-			instance.rotation_degrees = current_belt.rotation_degrees
+			instance.rotation_degrees.y = current_belt.rotation_degrees.y
+			
 			Database.placed_belts[Database.placed_belts.size()] = instance.global_position
-			instance.activate()
+			
+			instance.active = true
 		else:
 			var instance = load(Database.selected_belt["Scene"]).instantiate()
 			belts_holder.add_child(instance)
+			
 			instance.global_position = Vector3(pos.x, 0.5, pos.z)
-			instance.rotation_degrees = current_belt.rotation_degrees
+			instance.rotation_degrees.y = current_belt.rotation_degrees.y
+			
 			Database.placed_belts[Database.placed_belts.size()] = instance.global_position
 			
-			instance.activate()
+			instance.active = true
 			
 			Database.selected_belt = {}
 			show_belt = false
