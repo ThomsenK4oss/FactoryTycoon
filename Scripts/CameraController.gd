@@ -22,19 +22,17 @@ func _ready() -> void:
 	zoom_target = camera.position.z
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("rotate"):
+	if Input.is_action_just_pressed("Right_Click"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	elif Input.is_action_just_released("rotate"):
+	elif Input.is_action_just_released("Right_Click"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	# get input directions
 	var input_directions = Input.get_vector("left","right","up","down")
 	var movement_directions = (transform.basis * Vector3(input_directions.x,0,input_directions.y)).normalized()
-	var rotate_keys = Input.get_axis("rotate_left", "rotate_right")
 	var zoom_dir = (int(Input.is_action_just_pressed("zoom_out"))-
 					int(Input.is_action_just_released("zoom_in")))
 	
 	move_target += move_speed * movement_directions
-	rotate_target += rotate_keys * rotate_speed
 	zoom_target += zoom_dir * zoom_speed
 	
 	position = lerp(position, move_target, 0.05)
@@ -42,7 +40,7 @@ func _process(delta: float) -> void:
 	camera.position.z = lerp(camera.position.z, zoom_target, 0.1)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion and Input.is_action_pressed("rotate"):
+	if event is InputEventMouseMotion and Input.is_action_pressed("Right_Click"):
 		rotate_target -= event.relative.x * mouse_sesitivity
 		rotationx.rotation_degrees.x -= event.relative.y * mouse_sesitivity
 		rotationx.rotation_degrees.x = clamp(rotationx.rotation_degrees.x, -10, 90)

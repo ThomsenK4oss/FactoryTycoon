@@ -18,7 +18,7 @@ func _process(delta: float) -> void:
 	
 	if show_belt:
 		if can_place():
-			if Input.is_action_just_pressed("Click"):
+			if Input.is_action_just_pressed("Left_Click"):
 				place_belt()
 		if Input.is_action_just_released("Shift"):
 			Database.selected_belt = {}
@@ -126,34 +126,47 @@ func can_place() -> bool:
 		return false
 
 func place_belt():
-	var mouse_pos = get_mouse_pos()
-	if mouse_pos:
-		var local_pos = grid_map.to_local(mouse_pos)
-		var map_pos = grid_map.local_to_map(local_pos)
-		var pos = Vector3(place_on_grid(map_pos).x, 0.5, place_on_grid(map_pos).z)
-		
-		if Input.is_action_pressed("Shift"):
-			var instance = load(Database.selected_belt["Scene"]).instantiate()
-			belts_holder.add_child(instance)
+	if Database.current_save["Gold"] >= Database.selected_belt["Cost"]:
+		var mouse_pos = get_mouse_pos()
+		if mouse_pos:
+			var local_pos = grid_map.to_local(mouse_pos)
+			var map_pos = grid_map.local_to_map(local_pos)
+			var pos = Vector3(place_on_grid(map_pos).x, 0.5, place_on_grid(map_pos).z)
 			
-			instance.global_position = Vector3(pos.x, 0.5, pos.z)
-			instance.rotation_degrees.y = current_belt.rotation_degrees.y
-			
-			Database.placed_belts[Database.placed_belts.size()] = instance.global_position
-			
-			instance.active = true
-		else:
-			var instance = load(Database.selected_belt["Scene"]).instantiate()
-			belts_holder.add_child(instance)
-			
-			instance.global_position = Vector3(pos.x, 0.5, pos.z)
-			instance.rotation_degrees.y = current_belt.rotation_degrees.y
-			
-			Database.placed_belts[Database.placed_belts.size()] = instance.global_position
-			
-			instance.active = true
-			
-			Database.selected_belt = {}
-			show_belt = false
-			
-			current_belt.visible = false
+			if Input.is_action_pressed("Shift"):
+				var instance = load(Database.selected_belt["Scene"]).instantiate()
+				belts_holder.add_child(instance)
+				
+				instance.global_position = Vector3(pos.x, 0.5, pos.z)
+				instance.rotation_degrees.y = current_belt.rotation_degrees.y
+				
+				instance.activate_collision()
+				
+				Database.placed_belts[Database.placed_belts.size()] = instance.global_position
+				
+				Database.current_save["Gold"] -= Database.selected_belt["Cost"]
+				
+				instance.return_amount = (Database.selected_belt["Cost"] * 0.75)
+				
+				instance.active = true
+			else:
+				var instance = load(Database.selected_belt["Scene"]).instantiate()
+				belts_holder.add_child(instance)
+				
+				instance.global_position = Vector3(pos.x, 0.5, pos.z)
+				instance.rotation_degrees.y = current_belt.rotation_degrees.y
+				
+				instance.activate_collision()
+				
+				Database.placed_belts[Database.placed_belts.size()] = instance.global_position
+				
+				Database.current_save["Gold"] -= Database.selected_belt["Cost"]
+				
+				instance.return_amount = (Database.selected_belt["Cost"] * 0.75)
+				
+				instance.active = true
+				
+				Database.selected_belt = {}
+				show_belt = false
+				
+				current_belt.visible = false
