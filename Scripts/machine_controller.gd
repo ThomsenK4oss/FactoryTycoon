@@ -20,8 +20,13 @@ func _process(delta: float) -> void:
 	
 	if show_machine:
 		if can_place():
-			if Input.is_action_just_pressed("Click"):
+			if Input.is_action_just_pressed("Left_Click"):
 				place_machine()
+		if Input.is_action_just_released("Shift"):
+			Database.selected_belt = {}
+			show_machine = false
+			
+			current_machine.visible = false
 
 func get_mouse_pos():
 	var mouse_pos = get_viewport().get_mouse_position()
@@ -123,34 +128,47 @@ func can_place() -> bool:
 		return false
 
 func place_machine():
-	var mouse_pos = get_mouse_pos()
-	if mouse_pos:
-		var local_pos = grid_map.to_local(mouse_pos)
-		var map_pos = grid_map.local_to_map(local_pos)
-		var pos = Vector3(place_on_grid(map_pos).x, 0.5, place_on_grid(map_pos).z)
-		
-		if Input.is_action_pressed("Shift"):
-			var instance = load(Database.selected_machine["Scene"]).instantiate()
-			machines_holder.add_child(instance)
+	if Database.current_save["Gold"] >= Database.selected_machine["Cost"]:
+		var mouse_pos = get_mouse_pos()
+		if mouse_pos:
+			var local_pos = grid_map.to_local(mouse_pos)
+			var map_pos = grid_map.local_to_map(local_pos)
+			var pos = Vector3(place_on_grid(map_pos).x, 0.5, place_on_grid(map_pos).z)
 			
-			instance.global_position = Vector3(pos.x, 0.5, pos.z)
-			instance.rotation_degrees.y = current_machine.rotation_degrees.y
-			
-			Database.placed_machines[Database.placed_machines.size()] = instance.global_position
-			
-			instance.start_output()
-		else:
-			var instance = load(Database.selected_machine["Scene"]).instantiate()
-			machines_holder.add_child(instance)
-			
-			instance.global_position = Vector3(pos.x, 0.5, pos.z)
-			instance.rotation_degrees.y = current_machine.rotation_degrees.y
-			
-			Database.placed_machines[Database.placed_machines.size()] = instance.global_position
-			
-			instance.start_output()
-			
-			Database.selected_machine = {}
-			show_machine = false
-			
-			current_machine.visible = false
+			if Input.is_action_pressed("Shift"):
+				var instance = load(Database.selected_machine["Scene"]).instantiate()
+				machines_holder.add_child(instance)
+				
+				instance.global_position = Vector3(pos.x, 0.5, pos.z)
+				instance.rotation_degrees.y = current_machine.rotation_degrees.y
+				
+				instance.activate_collision()
+				
+				Database.placed_machines[Database.placed_machines.size()] = instance.global_position
+				
+				Database.current_save["Gold"] -= Database.selected_machine["Cost"]
+				
+				instance.return_amount = (Database.selected_machine["Cost"] * 0.75)
+				
+				instance.start_output()
+			else:
+				var instance = load(Database.selected_machine["Scene"]).instantiate()
+				machines_holder.add_child(instance)
+				
+				instance.global_position = Vector3(pos.x, 0.5, pos.z)
+				instance.rotation_degrees.y = current_machine.rotation_degrees.y
+				
+				instance.activate_collision()
+				
+				Database.placed_machines[Database.placed_machines.size()] = instance.global_position
+				
+				Database.current_save["Gold"] -= Database.selected_machine["Cost"]
+				
+				instance.return_amount = (Database.selected_machine["Cost"] * 0.75)
+				
+				instance.start_output()
+				
+				Database.selected_machine = {}
+				show_machine = false
+				
+				current_machine.visible = false

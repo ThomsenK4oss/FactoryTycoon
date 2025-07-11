@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dboncljb5oan0"]
+[gd_scene load_steps=7 format=3 uid="uid://dboncljb5oan0"]
 
 [ext_resource type="Script" uid="uid://b8q6slj4a30p" path="res://Scripts/Machines/machine_belt.gd" id="1_63um2"]
 [ext_resource type="PackedScene" uid="uid://dj2cbyoesitqs" path="res://Scenes/Machines/Output/test_output.tscn" id="2_s6nf4"]
@@ -15,6 +15,9 @@ _data = {
 "tilts": PackedFloat32Array(0, 0)
 }
 point_count = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s6nf4"]
+size = Vector3(4, 4, 5)
 
 [node name="Machine" type="Node3D" node_paths=PackedStringArray("path", "machine_parts", "spawn_timer")]
 script = ExtResource("1_63um2")
@@ -39,5 +42,14 @@ skeleton = NodePath("")
 
 [node name="Path3D" type="Path3D" parent="."]
 curve = SubResource("Curve3D_s6nf4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 2147483648
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -0.5)
+shape = SubResource("BoxShape3D_s6nf4")
+disabled = true
 
 [connection signal="timeout" from="Spawn_Timer" to="." method="_on_spawn_timer_timeout"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cfyosloifv1ro"]
+[gd_scene load_steps=11 format=3 uid="uid://cfyosloifv1ro"]
 
 [ext_resource type="PackedScene" uid="uid://cpkl6fch11vx7" path="res://Scenes/camera_position.tscn" id="1_bo1nx"]
 [ext_resource type="PackedScene" uid="uid://ecopt515ciia" path="res://Forklift.fbx" id="3_jjvhh"]
@@ -9,6 +9,7 @@
 [ext_resource type="Material" uid="uid://dlj3ene0f3bho" path="res://Textures/Can_place_texture.tres" id="7_ynf5e"]
 [ext_resource type="Material" uid="uid://de0wd5avy28x5" path="res://Textures/Cant_place_texture.tres" id="8_hptm8"]
 [ext_resource type="Script" uid="uid://bb6gsofcqe8so" path="res://Scripts/belt_controller.gd" id="9_ynf5e"]
+[ext_resource type="Script" uid="uid://c8r67noe3brmk" path="res://Scripts/delete_controller.gd" id="10_hptm8"]
 
 [node name="Factory" type="Node3D" groups=["FactoryNode"]]
 
@@ -53,3 +54,6 @@ belts_holder = NodePath("../Belts_Holder")
 current_belt = NodePath("../Current_belt")
 can_place_texture = ExtResource("7_ynf5e")
 cant_place_texture = ExtResource("8_hptm8")
+
+[node name="DeleteController" type="Node" parent="."]
+script = ExtResource("10_hptm8")

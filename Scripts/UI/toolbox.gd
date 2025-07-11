@@ -1,10 +1,12 @@
 extends Panel
 
+@onready var container: GridContainer = $GridContainer
+
 @export var Pause_Menu: GridContainer
 
 @export var Belt_Menu: Panel
 
-@onready var container: GridContainer = $GridContainer
+@export var delete_indicator: Panel
 
 func _ready() -> void:
 	for i in container.get_child_count():
@@ -20,4 +22,9 @@ func tool_button_pressed(slot_index: int):
 		Belt_Menu.visible = !Belt_Menu.visible
 
 func _on_delete_machines_pressed() -> void:
-	pass # Replace with function body.
+	if Database.delete_mode == false:
+		Database.delete_mode = true
+		delete_indicator.visible = true
+	else:
+		Database.delete_mode = false
+		delete_indicator.visible = false
